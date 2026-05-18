@@ -4,39 +4,205 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rocket Design - Simple Astronautics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body {
-            font-family: sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        body.light-theme {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            color: #333;
+        }
+
+        body.dark-theme {
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+            color: #fff;
         }
 
         header {
-            background-color: #333;
+            background: linear-gradient(135deg, #0a1e3e 0%, #1a4d7a 100%);
             color: #fff;
-            padding: 1rem 0;
+            padding: 2rem 0;
             text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border-bottom: 3px solid #00d4ff;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.5s ease;
+        }
+
+        body.light-theme header {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f4f8 100%);
+            border-bottom-color: #0099cc;
+            color: #0a1e3e;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,50 Q300,0 600,50 T1200,50 L1200,120 L0,120 Z" fill="rgba(0,212,255,0.1)"/></svg>');
+            background-size: cover;
+            pointer-events: none;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0 2rem;
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            padding: 0.6rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(0, 212, 255, 0.3);
+            border-color: #00d4ff;
+            transform: scale(1.05);
+        }
+
+        body.light-theme .theme-toggle {
+            background: rgba(10, 30, 62, 0.1);
+            border-color: rgba(10, 30, 62, 0.3);
+            color: #0a1e3e;
+        }
+
+        body.light-theme .theme-toggle:hover {
+            background: rgba(10, 30, 62, 0.2);
+            border-color: #0a1e3e;
+        }
+
+        .rocket-icon {
+            font-size: 3rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            letter-spacing: 2px;
+            color: #fff;
+            transition: color 0.5s ease;
+        }
+
+        body.light-theme header h1 {
+            color: #0a1e3e;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #00d4ff;
+            margin-bottom: 1.5rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            transition: color 0.5s ease;
+        }
+
+        body.light-theme .subtitle {
+            color: #0099cc;
+            text-shadow: none;
         }
 
         nav ul {
             list-style: none;
-            padding: 0;
-            margin: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0;
         }
 
         nav ul li {
-            display: inline;
-            margin: 0 1rem;
+            margin: 0;
         }
 
         nav ul li a {
             color: #fff;
             text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            display: block;
+            transition: all 0.3s ease;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        body.light-theme nav ul li a {
+            color: #0a1e3e;
+            border-right-color: rgba(10, 30, 62, 0.1);
+        }
+
+        nav ul li:last-child a {
+            border-right: none;
+        }
+
+        nav ul li a:hover {
+            background-color: rgba(0, 212, 255, 0.2);
+            color: #00d4ff;
+            transform: translateY(-2px);
+        }
+
+        body.light-theme nav ul li a:hover {
+            background-color: rgba(10, 30, 62, 0.1);
+            color: #0a1e3e;
+        }
+
+        nav ul li a.active {
+            background-color: rgba(0, 212, 255, 0.3);
+            color: #00d4ff;
+            border-bottom: 3px solid #00d4ff;
+        }
+
+        body.light-theme nav ul li a.active {
+            background-color: rgba(10, 30, 62, 0.15);
+            color: #0a1e3e;
+            border-bottom-color: #0099cc;
         }
 
         main {
-            padding: 2rem;
+            padding: 3rem 2rem;
+            flex: 1;
         }
 
         .container {
@@ -44,100 +210,843 @@
             margin: 0 auto;
         }
 
-        h1, h2 {
-            margin-top: 0;
+        h2 {
+            color: #0a1e3e;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 1rem;
+            transition: color 0.5s ease;
         }
 
-        p {
-            margin-bottom: 1rem;
+        body.dark-theme h2 {
+            color: #fff;
         }
 
-        .article {
-            background-color: #fff;
-            padding: 2rem;
-            border-radius: 5px;
-            margin-bottom: 1rem;
-        }
-
-        footer {
-            background-color: #333;
-            color: #7a7a7aff;
-            padding: 1rem 0;
-            text-align: center;
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #00d4ff, #00a8cc);
+            border-radius: 2px;
         }
 
         h3 {
-            color: #3e7ea8ff;
-            border-left: 4px solid #333;
-            padding-left: 10px;
-            margin-top: 20px;
+            color: #1a4d7a;
+            font-size: 1.5rem;
+            border-left: 4px solid #00d4ff;
+            padding-left: 15px;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-theme h3 {
+            color: #00d4ff;
+        }
+
+        h3:hover {
+            color: #00d4ff;
+        }
+
+        h4 {
+            color: #1a4d7a;
+            font-size: 1.2rem;
+            margin-top: 1.2rem;
+            margin-bottom: 0.8rem;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-theme h4 {
+            color: #00d4ff;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            color: #555;
+            font-size: 1rem;
+            transition: color 0.5s ease;
+        }
+
+        body.dark-theme p {
+            color: #ddd;
+        }
+
+        .article {
+            background: #fff;
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            border-left: 5px solid #00d4ff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.5s ease;
+        }
+
+        body.light-theme .article {
+            background: #f9f9f9;
+            border-left-color: #0099cc;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .article:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 212, 255, 0.2);
+        }
+
+        body.light-theme .article:hover {
+            box-shadow: 0 15px 50px rgba(0, 153, 204, 0.1);
+        }
+
+        .rocket-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            border-top: 5px solid #00d4ff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.5s ease;
+        }
+
+        body.light-theme .rocket-card {
+            background: #f9f9f9;
+            border-top-color: #0099cc;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .rocket-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 212, 255, 0.2);
+        }
+
+        body.light-theme .rocket-card:hover {
+            box-shadow: 0 15px 50px rgba(0, 153, 204, 0.1);
+        }
+
+        .rocket-card h3 {
+            border-left: none;
+            padding-left: 0;
+            margin-top: 0;
+            color: #1a4d7a;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        body.dark-theme .rocket-card h3 {
+            color: #00d4ff;
+        }
+
+        .rocket-emoji {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+            display: inline-block;
+        }
+
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        .specs-table th {
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            color: #fff;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        body.light-theme .specs-table th {
+            background: linear-gradient(135deg, #0099cc, #0066aa);
+        }
+
+        .specs-table td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #ddd;
+            color: #555;
+        }
+
+        body.dark-theme .specs-table td {
+            color: #ddd;
+            border-bottom-color: #444;
+        }
+
+        .specs-table tr:nth-child(even) {
+            background: #f5f5f5;
+        }
+
+        body.dark-theme .specs-table tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .specs-table tr:hover {
+            background: rgba(0, 212, 255, 0.1);
         }
 
         ul {
-            line-height: 1.6;
+            line-height: 1.8;
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        ul li {
+            margin-bottom: 0.8rem;
+            color: #555;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-theme ul li {
+            color: #ddd;
+        }
+
+        ul li:hover {
+            color: #1a4d7a;
+        }
+
+        body.dark-theme ul li:hover {
+            color: #00d4ff;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-item {
+            background: rgba(0, 212, 255, 0.1);
+            padding: 1rem;
+            border-left: 4px solid #00d4ff;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        body.light-theme .feature-item {
+            background: rgba(0, 153, 204, 0.05);
+            border-left-color: #0099cc;
+        }
+
+        .feature-item:hover {
+            background: rgba(0, 212, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .feature-item strong {
+            color: #00d4ff;
+        }
+
+        body.light-theme .feature-item strong {
+            color: #0099cc;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #0a1e3e 0%, #1a3a52 100%);
+            color: #00d4ff;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: auto;
+            border-top: 3px solid #00d4ff;
+            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.2);
+            transition: background 0.5s ease;
+        }
+
+        body.light-theme footer {
+            background: linear-gradient(135deg, #f0f4f8 0%, #e8e8e8 100%);
+            color: #0099cc;
+            border-top-color: #0099cc;
+            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.05);
+        }
+
+        footer p {
+            color: #00d4ff;
+            margin: 0;
+            font-size: 0.95rem;
+            transition: color 0.5s ease;
+        }
+
+        body.light-theme footer p {
+            color: #0099cc;
+        }
+
+        .footer-decoration {
+            color: #0099cc;
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+            transition: color 0.5s ease;
+        }
+
+        body.light-theme .footer-decoration {
+            color: #0099cc;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .rocket-icon {
+                font-size: 2rem;
+            }
+
+            .header-top {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav ul li a {
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            nav ul li:last-child a {
+                border-bottom: none;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            h3 {
+                font-size: 1.3rem;
+            }
+
+            .article, .rocket-card {
+                padding: 1.5rem;
+            }
+
+            .specs-table {
+                font-size: 0.9rem;
+            }
+
+            .specs-table th, .specs-table td {
+                padding: 0.6rem;
+            }
+
+            .rocket-emoji {
+                font-size: 2rem;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        a {
+            transition: all 0.3s ease;
         }
     </style>
 </head>
-<body>
+<body class="dark-theme">
     <header>
-        <div class="container">
-            <h1>Simple Astronautics</h1>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="introduction.html">Introduction</a></li>
-                    <li><a href="history.html">History</a></li>
-                    <li><a href="rocket-design.html">Rocket Design</a></li>
-                    <li><a href="orbital-mechanics.html">Mekanik Orbit</a></li>
-                    <li><a href="people.html">People</a></li>
-                </ul>
-            </nav>
+        <div class="header-content">
+            <div class="container">
+                <div class="header-top">
+                    <div class="rocket-icon">🚀</div>
+                    <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+                        <span id="themeIcon">☀️</span>
+                    </button>
+                </div>
+                <h1>Rocket Design</h1>
+                <p class="subtitle">Mengenal Desain dan Teknologi Roket Luar Angkasa</p>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="introduction.html">Introduction</a></li>
+                        <li><a href="history.html">History</a></li>
+                        <li><a href="rocket-design.html" class="active">Rocket Design</a></li>
+                        <li><a href="orbital-mechanics.html">Mekanik Orbit</a></li>
+                        <li><a href="people.html">People</a></li>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </header>
 
     <main>
         <div class="container">
             <article class="article">
-                <h2>Desain Roket</h2>
-                <p>Desain roket merupakan disiplin ilmu yang menggabungkan fisika, aeronautika, dan teknik untuk menciptakan kendaraan luar angkasa yang dapat mencapai tujuan misi mereka.</p>
+                <h2>🚀 Desain dan Teknologi Roket</h2>
+                <p>Roket adalah wahana yang dirancang untuk meluncur ke luar angkasa. Setiap roket memiliki desain unik yang disesuaikan dengan misinya. Dari roket Soviet pertama hingga roket Amerika yang canggih, teknologi roket terus berkembang untuk membawa manusia dan payload ke orbit dan seterusnya.</p>
+            </article>
 
-                <h3>Komponen Utama Roket</h3>
+            <!-- Vostok Rocket -->
+            <div class="rocket-card">
+                <h3><span class="rocket-emoji">🔴</span>Vostok (USSR)</h3>
+                <p><strong>Tahun Peluncuran Pertama:</strong> 1957</p>
+                <p>Vostok adalah roket Soviet yang pertama kali berhasil meluncurkan satelit buatan manusia ke orbit. Roket ini kemudian digunakan untuk mengirim Yuri Gagarin, astronot pertama, ke luar angkasa pada tahun 1961.</p>
+                
+                <h4>Spesifikasi Teknis:</h4>
+                <table class="specs-table">
+                    <tr>
+                        <th>Karakteristik</th>
+                        <th>Detail</th>
+                    </tr>
+                    <tr>
+                        <td>Tinggi</td>
+                        <td>38 meter</td>
+                    </tr>
+                    <tr>
+                        <td>Diameter</td>
+                        <td>3,35 meter</td>
+                    </tr>
+                    <tr>
+                        <td>Massa Awal</td>
+                        <td>272.000 kg</td>
+                    </tr>
+                    <tr>
+                        <td>Payload Maksimal</td>
+                        <td>4.730 kg ke LEO</td>
+                    </tr>
+                    <tr>
+                        <td>Tahapan</td>
+                        <td>3 tingkat</td>
+                    </tr>
+                </table>
+
+                <h4>Fitur Utama:</h4>
+                <div class="feature-list">
+                    <div class="feature-item"><strong>✓ Pendorong Cair:</strong> Menggunakan kerosene dan oksigen cair sebagai bahan bakar</div>
+                    <div class="feature-item"><strong>✓ Desain Bertingkat:</strong> Tiga tahap untuk mencapai kecepatan orbit</div>
+                    <div class="feature-item"><strong>✓ Sistem Penstabil:</strong> Menggunakan giroskop untuk stabilitas penerbangan</div>
+                    <div class="feature-item"><strong>✓ Kapsula Soyuz:</strong> Membawa kosmonot dengan sistem life support</div>
+                </div>
+            </div>
+
+            <!-- Voskhod Rocket -->
+            <div class="rocket-card">
+                <h3><span class="rocket-emoji">🟠</span>Voskhod (USSR)</h3>
+                <p><strong>Tahun Peluncuran Pertama:</strong> 1964</p>
+                <p>Voskhod adalah pengembangan dari Vostok yang dirancang untuk membawa lebih banyak kosmonauten ke luar angkasa. Ini adalah roket pertama yang membawa tiga orang ke orbit, menandai lompatan signifikan dalam eksplorasi ruang angkasa manusia.</p>
+                
+                <h4>Spesifikasi Teknis:</h4>
+                <table class="specs-table">
+                    <tr>
+                        <th>Karakteristik</th>
+                        <th>Detail</th>
+                    </tr>
+                    <tr>
+                        <td>Tinggi</td>
+                        <td>37 meter</td>
+                    </tr>
+                    <tr>
+                        <td>Diameter</td>
+                        <td>3,35 meter</td>
+                    </tr>
+                    <tr>
+                        <td>Massa Awal</td>
+                        <td>305.000 kg</td>
+                    </tr>
+                    <tr>
+                        <td>Payload Maksimal</td>
+                        <td>5.900 kg ke LEO</td>
+                    </tr>
+                    <tr>
+                        <td>Kapasitas Kru</td>
+                        <td>3 kosmonauten</td>
+                    </tr>
+                </table>
+
+                <h4>Peningkatan dari Vostok:</h4>
+                <div class="feature-list">
+                    <div class="feature-item"><strong>✓ Kapasitas Lebih Besar:</strong> Dirancang khusus untuk membawa tiga kru</div>
+                    <div class="feature-item"><strong>✓ Airlock Pintu:</strong> Memungkinkan EVA (spacewalk) pertama oleh Aleksei Leonov</div>
+                    <div class="feature-item"><strong>✓ Sistem Rudal Bantuan:</strong> Booster sidang tambahan untuk daya angkat ekstra</div>
+                    <div class="feature-item"><strong>✓ Durasi Misi Lebih Lama:</strong> Mampu mengorbit hingga 8 hari</div>
+                </div>
+            </div>
+
+            <!-- Saturn V Rocket -->
+            <div class="rocket-card">
+                <h3><span class="rocket-emoji">🟡</span>Saturn V (USA)</h3>
+                <p><strong>Tahun Peluncuran Pertama:</strong> 1967</p>
+                <p>Saturn V adalah roket terbesar dan paling bertenaga yang pernah berhasil diluncurkan. Dirancang oleh Wernher von Braun, roket ikonik ini membawa astronot Apollo ke Bulan dan tetap menjadi standar untuk kekuatan roket hingga hari ini.</p>
+                
+                <h4>Spesifikasi Teknis:</h4>
+                <table class="specs-table">
+                    <tr>
+                        <th>Karakteristik</th>
+                        <th>Detail</th>
+                    </tr>
+                    <tr>
+                        <td>Tinggi</td>
+                        <td>110,6 meter</td>
+                    </tr>
+                    <tr>
+                        <td>Diameter</td>
+                        <td>10,1 meter</td>
+                    </tr>
+                    <tr>
+                        <td>Massa Awal</td>
+                        <td>2.970.000 kg</td>
+                    </tr>
+                    <tr>
+                        <td>Dorongan (Thrust)</td>
+                        <td>7.570 ton (F-1 engines)</td>
+                    </tr>
+                    <tr>
+                        <td>Payload ke Bulan</td>
+                        <td>130.000 kg</td>
+                    </tr>
+                    <tr>
+                        <td>Tahapan</td>
+                        <td>3 tingkat</td>
+                    </tr>
+                </table>
+
+                <h4>Keunggulan Saturn V:</h4>
+                <div class="feature-list">
+                    <div class="feature-item"><strong>✓ Mesin F-1 Raksasa:</strong> 5 mesin F-1 pada tahap pertama, mesin single-chamber terbesar pernah dibuat</div>
+                    <div class="feature-item"><strong>✓ Payload Terbesar:</strong> Mampu membawa modul lunar dan Apollo ke Bulan</div>
+                    <div class="feature-item"><strong>✓ Presisi Tinggi:</strong> Sistem guidance canggih untuk pendaratan di Bulan</div>
+                    <div class="feature-item"><strong>✓ Akselerasi Masif:</strong> Mencapai kecepatan escape untuk perjalanan ke Bulan</div>
+                    <div class="feature-item"><strong>✓ Pendorong Hybrid:</strong> Kombinasi kerosene dan oksigen cair di tingkat pertama</div>
+                </div>
+
+                <h4>Pencapaian Bersejarah:</h4>
                 <ul>
-                    <li><strong>Kepala Roket (Warhead):</strong> Bagian depan roket yang mengandung muatan atau satelit yang akan diluncurkan ke luar angkasa.</li>
-                    <li><strong>Badan Roket:</strong> Struktur utama yang menahan semua komponen. Harus kuat namun ringan untuk efisiensi bahan bakar.</li>
-                    <li><strong>Sistem Propulsi:</strong> Mesin roket yang menghasilkan dorong untuk membawa roket ke luar angkasa. Bisa menggunakan bahan bakar padat atau cair.</li>
-                    <li><strong>Sistem Kontrol Terbang:</strong> Membantu mengarahkan roket selama penerbangan dan memastikan stabilitas.</li>
-                    <li><strong>Sistem Navigasi:</strong> Mengarahkan roket mencapai orbit yang diinginkan dengan presisi tinggi.</li>
+                    <li><strong>Apollo 11 (1969):</strong> Membawa Neil Armstrong dan Buzz Aldrin ke Bulan</li>
+                    <li><strong>Apollo 12 hingga 17:</strong> Enam misi pendaratan Bulan yang sukses</li>
+                    <li><strong>Skylab:</strong> Peluncuran stasiun luar angkasa pertama Amerika</li>
+                    <li><strong>13 Peluncuran Sukses:</strong> Tidak ada kegagalan pada orbit atau misi lunar</li>
                 </ul>
+            </div>
 
-                <h3>Prinsip Kerja Roket</h3>
-                <p>Roket bekerja berdasarkan Hukum Newton Ketiga: "Setiap aksi memiliki reaksi yang sama besar namun berlawanan arah." Ketika roket membakar bahan bakar, gas panas dikeluarkan melalui nozel dengan kecepatan tinggi. Reaksi dari gas yang keluar ini menciptakan gaya dorong (thrust) yang mengangkat roket ke atas.</p>
+            <!-- Soyuz Rocket -->
+            <div class="rocket-card">
+                <h3><span class="rocket-emoji">🔵</span>Soyuz (USSR/Russia)</h3>
+                <p><strong>Tahun Peluncuran Pertama:</strong> 1966</p>
+                <p>Soyuz adalah roket Soviet yang dirancang untuk meluncurkan pesawat luar angkasa Soyuz. Meskipun pertama kali diluncurkan lebih dari 50 tahun yang lalu, Soyuz masih menjadi salah satu roket yang paling dapat diandalkan dan sering digunakan untuk membawa astronot ke Stasiun Luar Angkasa Internasional.</p>
+                
+                <h4>Spesifikasi Teknis:</h4>
+                <table class="specs-table">
+                    <tr>
+                        <th>Karakteristik</th>
+                        <th>Detail</th>
+                    </tr>
+                    <tr>
+                        <td>Tinggi</td>
+                        <td>49,35 meter</td>
+                    </tr>
+                    <tr>
+                        <td>Diameter</td>
+                        <td>2,66 meter</td>
+                    </tr>
+                    <tr>
+                        <td>Massa Awal</td>
+                        <td>309.000 kg</td>
+                    </tr>
+                    <tr>
+                        <td>Dorongan (Thrust)</td>
+                        <td>1.020 ton</td>
+                    </tr>
+                    <tr>
+                        <td>Payload ke LEO</td>
+                        <td>8.300 kg</td>
+                    </tr>
+                    <tr>
+                        <td>Keandalan</td>
+                        <td>97% (lebih dari 1.700 peluncuran)</td>
+                    </tr>
+                </table>
 
-                <h3>Tahap Penerbangan Roket</h3>
+                <h4>Fitur Unggulan:</h4>
+                <div class="feature-list">
+                    <div class="feature-item"><strong>✓ Keandalan Terbukti:</strong> Roket yang paling banyak diluncurkan dalam sejarah</div>
+                    <div class="feature-item"><strong>✓ Desain Modular:</strong> Mudah dimodifikasi untuk berbagai misi</div>
+                    <div class="feature-item"><strong>✓ Biaya Efektif:</strong> Ekonomis untuk transportasi rutin ke ISS</div>
+                    <div class="feature-item"><strong>✓ Sistem Escape Ejectable:</strong> Kapsula Soyuz dapat keluar dari roket dalam keadaan darurat</div>
+                    <div class="feature-item"><strong>✓ Propelan Cair:</strong> Menggunakan RP-1 (kerosene) dan oksigen cair</div>
+                </div>
+
+                <h4>Variasi Soyuz:</h4>
                 <ul>
-                    <li><strong>Tahap Peluncuran:</strong> Roket lepas dari landasan dengan tenaga penuh mesin utama.</li>
-                    <li><strong>Tahap Akselerasi:</strong> Roket mempercepat diri sambil meninggalkan atmosfer bumi.</li>
-                    <li><strong>Tahap Pemisahan Tahap:</strong> Ketika bahan bakar habis, tahap roket dilepaskan dan tahap berikutnya dinyalakan.</li>
-                    <li><strong>Tahap Orbit:</strong> Roket mencapai kecepatan orbit dan memasuki lintasan yang stabil mengelilingi bumi.</li>
+                    <li><strong>Soyuz-U:</strong> Varian standar, yang paling sering digunakan</li>
+                    <li><strong>Soyuz-FG:</strong> Versi yang ditingkatkan dengan daya dorong lebih tinggi</li>
+                    <li><strong>Soyuz-2:</strong> Generasi modern dengan sistem digital</li>
+                    <li><strong>Soyuz-2.1v:</strong> Varian terbaru untuk peluncuran satelit kecil</li>
                 </ul>
+            </div>
 
-                <h3>Jenis-Jenis Sistem Propulsi</h3>
+            <!-- Space Shuttle -->
+            <div class="rocket-card">
+                <h3><span class="rocket-emoji">🟢</span>Space Shuttle (USA)</h3>
+                <p><strong>Tahun Peluncuran Pertama:</strong> 1981</p>
+                <p>Space Shuttle adalah kendaraan peluncuran yang dapat digunakan kembali (reusable launch vehicle) pertama di dunia. Dengan desain yang revolusioner, Space Shuttle menggabungkan karakteristik pesawat terbang dan roket, memungkinkan astronot untuk membawa payload besar dan melakukan misi yang kompleks.</p>
+                
+                <h4>Spesifikasi Teknis:</h4>
+                <table class="specs-table">
+                    <tr>
+                        <th>Karakteristik</th>
+                        <th>Detail</th>
+                    </tr>
+                    <tr>
+                        <td>Panjang</td>
+                        <td>56,1 meter (termasuk tank eksternal)</td>
+                    </tr>
+                    <tr>
+                        <td>Wingspan Orbiter</td>
+                        <td>23,8 meter</td>
+                    </tr>
+                    <tr>
+                        <td>Massa Awal</td>
+                        <td>2.041.000 kg</td>
+                    </tr>
+                    <tr>
+                        <td>Dorongan (Thrust)</td>
+                        <td>6.806 ton (dua SRB + tiga SSME)</td>
+                    </tr>
+                    <tr>
+                        <td>Payload Kapasitas</td>
+                        <td>27.500 kg ke LEO</td>
+                    </tr>
+                    <tr>
+                        <td>Kru</td>
+                        <td>2-8 astronot</td>
+                    </tr>
+                </table>
+
+                <h4>Komponen Utama:</h4>
+                <div class="feature-list">
+                    <div class="feature-item"><strong>✓ Orbiter:</strong> Pesawat luar angkasa yang dapat digunakan kembali dengan sayap dan fuselage</div>
+                    <div class="feature-item"><strong>✓ Tank Eksternal (ET):</strong> Wadah besar berisi hidrogen dan oksigen cair untuk SSME</div>
+                    <div class="feature-item"><strong>✓ Solid Rocket Boosters (SRB):</strong> Dua booster roket padat untuk dorongan awal</div>
+                    <div class="feature-item"><strong>✓ Space Shuttle Main Engines (SSME):</strong> Tiga mesin utama dengan performa tinggi</div>
+                    <div class="feature-item"><strong>✓ Cargo Bay:</strong> Ruang muatan besar untuk satelit dan modul</div>
+                </div>
+
+                <h4>Pencapaian Shuttle:</h4>
                 <ul>
-                    <li><strong>Bahan Bakar Padat:</strong> Lebih sederhana, dapat dinyalakan dan dimatikan, tetapi kurang fleksibel.</li>
-                    <li><strong>Bahan Bakar Cair:</strong> Memberikan efisiensi tinggi, dapat dikontrol dengan baik, namun lebih kompleks.</li>
-                    <li><strong>Hibrid:</strong> Kombinasi bahan bakar padat dan cair untuk keuntungan kedua sistem.</li>
+                    <li><strong>Teleskop Hubble:</strong> Diluncurkan dan diperbaiki melalui misi Shuttle</li>
+                    <li><strong>Stasiun Luar Angkasa Internasional:</strong> Sebagian besar modul ISS dibangun melalui Shuttle</li>
+                    <li><strong>Magellan dan Galileo:</strong> Probe Venus dan Jupiter diluncurkan dari Shuttle</li>
+                    <li><strong>Spacelab:</strong> Laboratorium orbital untuk eksperimen ilmiah</li>
+                    <li><strong>135 Misi Sukses (1981-2011)</strong></li>
                 </ul>
+            </div>
 
-                <h3>Tantangan Desain Roket</h3>
-                <p>Desainer roket harus menyeimbangkan berbagai faktor: berat dengan kekuatan struktur, konsumsi bahan bakar dengan jangkauan, dan biaya dengan performa. Setiap keputusan desain memiliki dampak signifikan terhadap keberhasilan misi.</p>
+            <!-- Falcon 9 -->
+            <div class="rocket-card">
+                <h3><span class="rocket-emoji">⚪</span>Falcon 9 (SpaceX)</h3>
+                <p><strong>Tahun Peluncuran Pertama:</strong> 2010</p>
+                <p>Falcon 9 adalah roket medium-lift yang dikembangkan oleh SpaceX. Inovasi terbesar Falcon 9 adalah kemampuannya untuk mendarat dan digunakan kembali, merevolusi ekonomi peluncuran luar angkasa dan membuat akses ke orbit menjadi lebih terjangkau.</p>
+                
+                <h4>Spesifikasi Teknis:</h4>
+                <table class="specs-table">
+                    <tr>
+                        <th>Karakteristik</th>
+                        <th>Detail</th>
+                    </tr>
+                    <tr>
+                        <td>Tinggi</td>
+                        <td>70 meter</td>
+                    </tr>
+                    <tr>
+                        <td>Diameter</td>
+                        <td>3,7 meter</td>
+                    </tr>
+                    <tr>
+                        <td>Massa Awal</td>
+                        <td>549.000 kg</td>
+                    </tr>
+                    <tr>
+                        <td>Dorongan (Thrust)</td>
+                        <td>5.130 kN (tahap pertama)</td>
+                    </tr>
+                    <tr>
+                        <td>Payload ke LEO</td>
+                        <td>22.800 kg</td>
+                    </tr>
+                    <tr>
+                        <td>Payload ke GTO</td>
+                        <td>8.300 kg</td>
+                    </tr>
+                </table>
+
+                <h4>Inovasi Revolusioner:</h4>
+                <div class="feature-list">
+                    <div class="feature-item"><strong>✓ First Stage Reusable:</strong> Tahap pertama dapat mendarat secara vertikal dan digunakan kembali</div>
+                    <div class="feature-item"><strong>✓ Merlin Engine:</strong> 9 mesin Merlin 1D di tahap pertama, dapat dikalibrasi untuk kontrol</div>
+                    <div class="feature-item"><strong>✓ Prosedur Landing Presisi:</strong> Menggunakan grid fins dan thruster RCS untuk landing yang akurat</div>
+                    <div class="feature-item"><strong>✓ Integrasi Drone Ship:</strong> Landing di kapal drone di laut untuk recovery yang efisien</div>
+                    <div class="feature-item"><strong>✓ Propeleran Cair:</strong> RP-1 (kerosene) dan LOX (oksigen cair)</div>
+                </div>
+
+                <h4>Reusability Impact:</h4>
+                <ul>
+                    <li><strong>Pengurangan Biaya:</strong> Mengurangi biaya peluncuran hingga 50% dengan reusability</li>
+                    <li><strong>Frekuensi Tinggi:</strong> Memungkinkan peluncuran yang lebih sering dan konsisten</li>
+                    <li><strong>Starship Development:</strong> Falcon 9 adalah bagian dari ekosistem SpaceX menuju Mars</li>
+                    <li><strong>Crew Dragon:</strong> Kendaraan berawak untuk ISS dipicu oleh Falcon 9</li>
+                    <li><strong>Starlink:</strong> Peluncuran konstelasi satelit internet global</li>
+                </ul>
+            </div>
+
+            <!-- Ariane 5 -->
+            <div class="rocket-card">
+                <h3><span class="rocket-emoji">🟣</span>Ariane 5 (ESA)</h3>
+                <p><strong>Tahun Peluncuran Pertama:</strong> 1996</p>
+                <p>Ariane 5 adalah roket berat Eropa yang dirancang oleh European Space Agency (ESA). Dengan track record yang luar biasa, Ariane 5 menjadi salah satu roket paling andal dan sering digunakan untuk meluncurkan satelit komunikasi dan teleskop luar angkasa seperti James Webb.</p>
+                
+                <h4>Spesifikasi Teknis:</h4>
+                <table class="specs-table">
+                    <tr>
+                        <th>Karakteristik</th>
+                        <th>Detail</th>
+                    </tr>
+                    <tr>
+                        <td>Tinggi</td>
+                        <td>58 meter</td>
+                    </tr>
+                    <tr>
+                        <td>Diameter</td>
+                        <td>5,4 meter</td>
+                    </tr>
+                    <tr>
+                        <td>Massa Awal</td>
+                        <td>746.000 kg</td>
+                    </tr>
+                    <tr>
+                        <td>Dorongan (Thrust)</td>
+                        <td>1.400 ton</td>
+                    </tr>
+                    <tr>
+                        <td>Payload ke GTO</td>
+                        <td>10.000 kg</td>
+                    </tr>
+                    <tr>
+                        <td>Keandalan</td>
+                        <td>97% (hingga peluncuran terakhir)</td>
+                    </tr>
+                </table>
+
+                <h4>Karakteristik Utama:</h4>
+                <div class="feature-list">
+                    <div class="feature-item"><strong>✓ Dual Launch Capability:</strong> Dapat meluncurkan dua satelit sekaligus</div>
+                    <div class="feature-item"><strong>✓ Booster Padat EPC Plus:</strong> Core stage dengan booster padat yang powerful</div>
+                    <div class="feature-item"><strong>✓ Upper Stage Cryogenic:</strong> HM-7B engine dengan performa tinggi untuk orbit final</div>
+                    <div class="feature-item"><strong>✓ SYLDA Adapter:</strong> Sistem khusus untuk mengangkut dua payload</div>
+                    <div class="feature-item"><strong>✓ Automated Launch Sequence:</strong> Sistem launch yang sepenuhnya otomatis</div>
+                </div>
+
+                <h4>Misi Ikonik:</h4>
+                <ul>
+                    <li><strong>James Webb Space Telescope (JWST):</strong> Teleskop luar angkasa paling canggih diluncurkan Ariane 5</li>
+                    <li><strong>Herschel dan Planck:</strong> Observatorium inframerah Eropa</li>
+                    <li><strong>ATV (Automated Transfer Vehicle):</strong> Kendaraan pasokan untuk ISS</li>
+                    <li><strong>Satelit Komunikasi:</strong> Ribuan satelit komersial diluncurkan</li>
+                </ul>
+            </div>
+
+            <!-- Comparison Section -->
+            <article class="article">
+                <h2>📊 Perbandingan Roket Modern</h2>
+                <table class="specs-table">
+                    <tr>
+                        <th>Roket</th>
+                        <th>Negara</th>
+                        <th>Tahun Pertama</th>
+                        <th>Payload LEO</th>
+                        <th>Reusable</th>
+                        <th>Status</th>
+                    </tr>
+                    <tr>
+                        <td>Falcon 9</td>
+                        <td>USA (SpaceX)</td>
+                        <td>2010</td>
+                        <td>22.800 kg</td>
+                        <td>Ya</td>
+                        <td>Aktif</td>
+                    </tr>
+                    <tr>
+                        <td>Soyuz</td>
+                        <td>Russia</td>
+                        <td>1966</td>
+                        <td>8.300 kg</td>
+                        <td>Tidak</td>
+                        <td>Aktif</td>
+                    </tr>
+                    <tr>
+                        <td>Ariane 5</td>
+                        <td>ESA</td>
+                        <td>1996</td>
+                        <td>21.000 kg</td>
+                        <td>Tidak</td>
+                        <td>Pensiun (2024)</td>
+                    </tr>
+                    <tr>
+                        <td>Saturn V</td>
+                        <td>USA (NASA)</td>
+                        <td>1967</td>
+                        <td>130.000 kg</td>
+                        <td>Tidak</td>
+                        <td>Pensiun</td>
+                    </tr>
+                </table>
             </article>
         </div>
     </main>
 
     <footer>
         <div class="container">
+            <div class="footer-decoration">✨</div>
             <p>&copy; Rennard E.S 10-3 | 17</p>
+            <p style="font-size: 0.85rem; margin-top: 0.5rem; color: #00a8cc;">Exploring rocket technology through knowledge</p>
         </div>
     </footer>
+
+    <script>
+        // Get the theme toggle button and icon
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const body = document.body;
+
+        // Check for saved theme preference in localStorage
+        const savedTheme = localStorage.getItem('theme') || 'dark-theme';
+        body.className = savedTheme;
+        updateThemeIcon();
+
+        // Theme toggle function
+        themeToggle.addEventListener('click', function() {
+            if (body.classList.contains('dark-theme')) {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+                localStorage.setItem('theme', 'light-theme');
+            } else {
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark-theme');
+            }
+            updateThemeIcon();
+        });
+
+        // Update theme icon based on current theme
+        function updateThemeIcon() {
+            if (body.classList.contains('dark-theme')) {
+                themeIcon.textContent = '☀️'; // Sun icon for light theme toggle
+            } else {
+                themeIcon.textContent = '🌙'; // Moon icon for dark theme toggle
+            }
+        }
+
+        // Set active link
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
