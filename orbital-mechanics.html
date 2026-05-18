@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mekanik Orbit - Simple Astronautics</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+
+        nav ul li {
+            display: inline;
+            margin: 0 1rem;
+        }
+
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+
+        main {
+            padding: 2rem;
+        }
+
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+
+        h1, h2 {
+            margin-top: 0;
+        }
+
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+
+        .article {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+        }
+
+
+        footer {
+            background-color: #333;
+            color: #7a7a7aff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+
+       h3 {
+    color: #3e7ea8ff; /* Memberi warna biru pada sub-bab */
+    border-left: 4px solid #333;
+    padding-left: 10px;
+    margin-top: 20px;
+}
+
+ul {
+    line-height: 1.6; /* Agar teks daftar tidak terlalu rapat */
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Simple Astronautics</h1>
+            <nav>
+                <ul>
+                    <li><a href="introduction.html">Introduction</a></li>
+                    <li><a href="history.html">History</a></li>
+                    <li><a href="rocket-design.html">Rocket Design</a></li>
+                    <li><a href="orbital-mechanics.html">Mekanik orbit</a></li>
+                    <li><a href="people.html">People</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+    <main>
+        <div class="container">
+            <article class="article">
+                <h2>Mekanik Orbit</h2>
+                <p>Mekanika orbit adalah studi tentang gerakan benda-benda di luar angkasa. Kami akan membahas dasar-dasar mekanika orbit, termasuk jenis-jenis orbit, manuver transfer, dan perjalanan antar planet.</p>
+                
+                <h3>Hukum Newton dan Gravitasi</h3>
+                <p>Hukum gravitasi universal Newton menyatakan bahwa setiap massa menarik massa lainnya dengan gaya yang sebanding dengan hasil kali massa mereka dan berbanding terbalik dengan kuadrat jarak di antara keduanya. Di orbit, gaya gravitasi menyeimbang gaya sentrifugal, memungkinkan benda untuk tetap mengorbit tanpa jatuh atau melarikan diri.</p>
+                
+                <h3>Jenis-Jenis Orbit</h3>
+                <p><strong>Orbit Lingkaran (Circular Orbit):</strong> Orbit dengan jari-jari konstan. Kecepatan orbit konstan dan periode orbit dapat dihitung dengan mudah menggunakan hukum Kepler.</p>
+                <p><strong>Orbit Elips (Elliptical Orbit):</strong> Orbit paling umum dengan dua fokus. Satelit bergerak lebih cepat dekat dengan perigee (titik terdekat) dan lebih lambat di apogee (titik terjauh).</p>
+                <p><strong>Orbit Parabola (Parabolic Orbit):</strong> Orbit dengan energi nol. Benda akan meninggalkan sistem dengan kecepatan nol pada jarak tak terhingga.</p>
+                <p><strong>Orbit Hiperbola (Hyperbolic Orbit):</strong> Orbit dengan energi positif. Digunakan untuk peluncuran antar planet, memungkinkan benda meninggalkan orbit planet induk sepenuhnya.</p>
+                
+                <h3>Kecepatan Orbit</h3>
+                <p>Kecepatan orbit adalah kecepatan yang diperlukan untuk benda tetap mengorbit pada ketinggian tertentu tanpa jatuh. Untuk orbit rendah Bumi (LEO), kecepatan orbit sekitar 7.8 km/s. Kecepatan ini bervariasi tergantung pada ketinggian dan besar celestial body yang diorbitkan.</p>
+                <p><strong>Kecepatan Lepas (Escape Velocity):</strong> Kecepatan minimum yang diperlukan untuk melarikan diri dari gravitasi suatu benda tanpa propulsi lebih lanjut. Untuk Bumi, kecepatan lepas adalah sekitar 11.2 km/s.</p>
+                
+                <h3>Manuver Transfer</h3>
+                <p><strong>Hohmann Transfer:</strong> Manuver paling efisien untuk transfer antara dua orbit melingkar. Melibatkan dua pembakaran mesin: satu di orbit awal untuk memasuki orbit transfer elips, dan satu lagi di orbit target untuk sirkularisasi.</p>
+                <p><strong>Gravitational Assist:</strong> Teknik menggunakan gravitasi planet atau benda langit lainnya untuk mempercepat atau mengubah arah pesawat ruang angkasa tanpa menggunakan bahan bakar.</p>
+                
+                <h3>Periode Orbit dan Hukum Kepler</h3>
+                <p>Hukum Ketiga Kepler menyatakan bahwa kuadrat periode orbit berbanding lurus dengan pangkat tiga semi-major axis orbit. Ini berarti satelit yang lebih jauh dari Bumi akan memiliki periode orbit yang lebih lama. Contohnya, satelit geosynchronous mengorbit pada ketinggian 35,786 km dengan periode 24 jam, cocok untuk aplikasi komunikasi.</p>
+                
+                <h3>Perjalanan Antar Planet</h3>
+                <p>Perjalanan antar planet menggunakan Hohmann transfer atau trajectory yang lebih cepat tergantung pada kebutuhan misi. Peluncuran harus diperhitungkan dengan posisi planet target pada waktu kedatangan. Jendela peluncuran optimal terjadi hanya pada waktu-waktu tertentu ketika planet berada dalam posisi yang tepat relatif terhadap Bumi.</p>
+            </article>
+        </div>
+    </main>
+
+
+    <footer>
+        <div class="container">
+            <p>&copy; Rennard E.S 10-3 | 17</p>
+        </div>
+    </footer>
+</body>
+</html>
